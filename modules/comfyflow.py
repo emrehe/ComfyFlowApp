@@ -10,6 +10,8 @@ import streamlit as st
 from streamlit_extras.row import row
 from modules.page import custom_text_area
 
+import base64
+
 class Comfyflow:
     def __init__(self, comfy_client, api_data, app_data) -> Any:
     
@@ -279,10 +281,23 @@ class Comfyflow:
                                 if node is None:
                                     type, outputs = self.get_outputs()
                                     if type == 'images' and outputs is not None:
-                                        img_placeholder.image(outputs, use_column_width=True)
+                                        #logger.info(f"outputs, {outputs}")
+                                        for output in outputs:
+                                            #img_placeholder.image(outputs, use_column_width=True)   
+                                            b64 = base64.b64encode(output).decode()
+                                            # 创建HTML标签
+                                            html = f'<img src="data:image/webp;base64,{b64}" alt="WebP Image" style="width: 100%; height: auto;">'
+                                            #logger.info(f"html, {html}")
+                                            # 使用st.markdown显示HTML
+                                            #st.markdown(html, unsafe_allow_html=True)
+                                            img_placeholder.markdown(html, unsafe_allow_html=True)     
+
                                     elif type == 'gifs' and outputs is not None:
                                         for output in outputs:
                                             img_placeholder.markdown(f'<iframe src="{output}" width="100%" height="360px"></iframe>', unsafe_allow_html=True)
+                                    elif type == 'webp' and outputs is not None:
+                                        for output in outputs:
+                                            self.display_webp(output)
 
                                     output_progress.progress(1.0, text="Generate finished")
                                     logger.info("Generating finished")
