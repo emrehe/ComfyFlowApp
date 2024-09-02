@@ -428,6 +428,20 @@ def edit_app_ui(app):
             else:
                 add_input_config_param(params_inputs_options, 3, None)
 
+            
+            if len(input_params) > 3:
+                input_param_4 = input_params[3]
+                add_input_config_param(params_inputs_options, 4, input_param_4)
+            else:
+                add_input_config_param(params_inputs_options, 4, None)
+
+            if len(input_params) > 4:
+                input_param_5 = input_params[4]
+                add_input_config_param(params_inputs_options, 5, input_param_5)
+            else:
+                add_input_config_param(params_inputs_options, 5, None)
+            
+
         with st.container():
             
             st.markdown("Output Params:")
@@ -573,6 +587,8 @@ def new_app_ui():
             add_input_config_param(params_inputs_options, 1, None)
             add_input_config_param(params_inputs_options, 2, None)
             add_input_config_param(params_inputs_options, 3, None)
+            add_input_config_param(params_inputs_options, 4, None)
+            add_input_config_param(params_inputs_options, 5, None)
         with st.container():
             st.markdown("Output Params:")
             params_outputs = st.session_state.get('create_prompt_outputs', {})
